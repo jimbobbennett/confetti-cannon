@@ -1,0 +1,4 @@
+black
+pylint
+python-dotenv
+viam-sdk

@@ -1,0 +1,6 @@
+viam-sdk
+fastapi
+pylint
+black
+uvicorn
+python-dotenv
