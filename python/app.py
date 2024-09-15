@@ -55,7 +55,7 @@ async def main():
 
     # Initialize the 'start' motor from the robot
     start: Motor = Motor.from_robot(robot, "motor")
-    start.set_rpm(150)
+    await start.set_rpm(150)
 
     # Spin the motor for 1 second
 
@@ -64,7 +64,7 @@ async def main():
         await start.set_power(1)
 
         # Small delay to prevent rapid toggling
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
     except:
         pass
 
