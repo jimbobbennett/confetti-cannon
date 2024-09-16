@@ -67,10 +67,11 @@ async def fire_cannon(key: str = Query(...)):
     print("Connected!")
 
     start: Motor = Motor.from_robot(robot, "motor")
+    await start.set_rpm(150)
 
     try:
         await start.set_power(1)
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
     except:
         pass
 
