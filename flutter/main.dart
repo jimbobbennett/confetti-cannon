@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 const key = '';
-const serverUrl = 'confetti-cannon.loca.lt';
+const base_url = '';
 
 void main() {
   runApp(const ConfettiCannonApp());
 }
 
 Future<void> fireConfettiCannon() async {
-  final url = Uri.https(serverUrl, '/fire_cannon', { 'key': key });
+  final url = Uri.https(base_url, '/fire_cannon', { 'key': key });
 
   try {
-    final response = await http.post(url);
+    final response = await http.post(url, headers: {
+        "ngrok-skip-browser-warning": "yes",
+        "User-Agent": "Pieces-Confetti",
+    });
     final statusCode = response.statusCode;
-    if (statusCode == 511) { throw Exception("Ask jim to fix the tunnel");}
     if (statusCode != 200) { throw Exception("Status code $statusCode");}
   } catch (e) {
     print('Error occurred while firing confetti cannon: $e');
