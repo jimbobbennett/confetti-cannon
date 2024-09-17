@@ -60,7 +60,7 @@ async def read_root():
 
 @app.post("/fire_cannon")
 async def fire_cannon(key: str = Query(...)):
-    if key != "confetti":
+    if key != "pieces-confetti":
         raise HTTPException(status_code=400, detail="Invalid key")
     
     robot = await connect()
