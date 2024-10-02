@@ -58,6 +58,10 @@ The cannon is contained in a 3D printed case. You can find the STL files for thi
 
 ### Assembly
 
+1. Fix the motor through the hole in the main frame. You can fix it in place using a couple of M3 bolts through the frame into the holes in the motor.
+1. Fit the cannon gripper to the shaft of the motor, and bolt in place using a metal bolt.
+1. Attach the cannon offset to the main frame using M2 bolts and nuts.
+1. Attach the cannon guide to the offset using M2 bolts and nuts.
 
 ## Software
 
@@ -69,7 +73,7 @@ For this project, you will need:
 
 ### Set up the Pi
 
-For the Raspberry Pi, you can use Raspberry Pi OS full or Lite. I recommend Lite as it is lighter weight and you don't need the desktop running. 
+For the Raspberry Pi, you can use Raspberry Pi OS full or Lite. I recommend Lite as it is lighter weight and you don't need the desktop running.
 
 1. Set up Raspberry Pi OS Lite (64-bit) on your [SD card as normal](https://www.raspberrypi.com/software/). Make sure you have SSH access to the Pi configured in the Raspberry Pi installer configuration.
 1. Put the SD card into the Pi, power it up, and connect over SSH.
@@ -80,7 +84,6 @@ For the Raspberry Pi, you can use Raspberry Pi OS full or Lite. I recommend Lite
     ```
 
 1. The Pi will reboot once done, so reconnect.
-
 
 ### Set up Viam
 
@@ -106,7 +109,7 @@ For the Raspberry Pi, you can use Raspberry Pi OS full or Lite. I recommend Lite
 1. In the `motor` section set the following:
 
     1. Set the _board_ to `cannon-controller`
-    1. Expand the _Show more_ section and set the *max_rpm* to `1000`.
+    1. Expand the _Show more_ section and set the _max_rpm_ to `1000`.
     1. Set the _Component pin assignment_ to `In1/In2`. This refers to the connection on the motor driver.
     1. Set _a_ to `13`, _b_ to `15`, and _pwm_ to `11`. These are the positional values for the GPIO pins used on the Raspberry Pi. These are the positional numbers, not the GPIO pin numbers (for example, referring to the diagram above, the pin in position 11 is GPIO 27, so we set _pwm_ to 11).
 1. Save the changes using the __Save__ button. The configuration will look like this:
@@ -114,7 +117,36 @@ For the Raspberry Pi, you can use Raspberry Pi OS full or Lite. I recommend Lite
     ![The fully configured hardware](./img/hardware-configured.webp)
 
 1. To test the motor, expand the _Test_ section in the `motor` block, and use the __Forward__ and __Backward__ buttons to spin the motor.
+1. Slide a confetti popper into the gripper and guide, tightening the gripper in place to hold it.
+1. Use the forward and backward buttons to launch the confetti!
 
 ## Control the Confetti Cannon
 
 You can control the confetti cannon using code run from anywhere - the cannon is connected to Viam over the internet, so can be controlled from any internet connected device.
+
+### Python
+
+This repo contains a [`python`](./python/) folder with Python code to connect to Viam and launch the confetti cannon. To run this code, you will need to:
+
+1. Set up a virtual environment and install the required Pip packages from the [`requirements.txt`](./python/requirements.txt) file.
+1. Copy the [`.env.example`](./python/.env.example) file to `.env`, and fill in the values from your Viam project.
+1. Run the code from the [`app.py](./python/app.py) file.
+
+### Via a web server
+
+If you want to run this code from an environment that doesn't support the Viam libraries, such as we did a FlutterCon, you can use a Python web server that runs on the device, and connect to this.
+
+This code is in the [`app-server`](./app-server/) folder.
+
+1. Set up a virtual environment and install the required Pip packages from the [`requirements.txt`](./app-server/requirements.txt) file.
+1. Copy the [`.env.example`](./app-server/.env.example) file to `.env`, and fill in the values from your Viam project.
+1. Run the [`main.py`](./app-server/main.py) file.
+
+This will start an app server you can connect to. You can run this anywhere, including on the confetti cannon itself. I recommend using something like [ngrok](https://ngrok.com) to expose a tunnel so you can access this over the web.
+
+You can then call this web server from anywhere.
+
+- Make a `GET` request to `/` to get a status message to show the cannon is running
+- Make a `POST` request to `/fire_cannon` passing the query string `key=pieces-confetti` to fire the cannon. The key is to allow you to share the code publicly without worrying about folks firing it without you being in control.
+
+You can find an example `main.dart` for a Flutter app to launch the cannon in the [`flutter`](./flutter/) folder.
