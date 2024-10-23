@@ -2,6 +2,8 @@
 
 This repo has all the materials for the Confetti Cannon demo for using Pieces.
 
+![An animated gif of the confetti cannon firing confetti across a conference](./img/launch_confetti.gif)
+
 The confetti cannon is built around a Raspberry Pi with a 3D printed case, a motor, and spring-loaded confetti launchers. It is controlled by [Viam](https://www.viam.com), and the confetti is launched by code run locally another device.
 
 This project is designed to show the snippet saving features of Pieces, and uses saved snippets for the code to fire the confetti cannon. The aim is to use this at an event, where an attendee will download Pieces, import a shared snippet, run this, launch confetti and win a prize!
